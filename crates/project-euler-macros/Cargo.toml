@@ -11,3 +11,5 @@ authors = ["Linda Siemons <linda@catbrained.dev>"]
 proc-macro = true
 
 [dependencies]
+syn = { version = "2.0.96", default-features = false, features = [ "parsing", "proc-macro" ]}
+quote = "1.0.38"

@@ -1,1 +1,3 @@
-pub mod p0001;
+use project_euler_macros::gen_mods;
+
+gen_mods!(1);
