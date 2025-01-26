@@ -1,10 +1,10 @@
-[package]
-name = "project-euler"
+[workspace]
+resolver = "2"
+members = ["crates/*"]
+
+[workspace.package]
 version = "0.1.0"
 edition = "2021"
-license = "GPL-3.0-only"
-authors = ["Linda Siemons <linda@catbrained.dev>"]
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
-[dependencies]
+[workspace.metadata.crane]
+name = "project-euler-workspace"

@@ -51,17 +51,33 @@
         # all of that work (e.g. via cachix) when running in CI
         cargoArtifacts = craneLib.buildDepsOnly commonArgs;
 
-        # Build the actual crate itself, reusing the dependency
-        # artifacts from above.
-        project-euler = craneLib.buildPackage (commonArgs // {
+        individualCrateArgs = commonArgs // {
           inherit cargoArtifacts;
+          inherit (craneLib.crateNameFromCargoToml { inherit src; }) version;
           doCheck = false;
+        };
+
+        fileSetForCrate = crate: lib.fileset.toSource {
+          root = ./.;
+          fileset = lib.fileset.unions [
+            ./Cargo.toml
+            ./Cargo.lock
+            (craneLib.fileset.commonCargoSources crate)
+          ];
+        };
+
+        # Build the individual workspace crates.
+        project-euler = craneLib.buildPackage (individualCrateArgs // {
+          src = fileSetForCrate ./crates/project-euler;
+        });
+        project-euler-macros = craneLib.buildPackage (individualCrateArgs // {
+          src = fileSetForCrate ./crates/project-euler-macros;
         });
       in
       {
         checks = {
           # Build the crate as part of `nix flake check` for convenience
-          inherit project-euler;
+          inherit project-euler project-euler-macros;
 
           # Run clippy (and deny all warnings) on the crate source,
           # again, reusing the dependency artifacts from above.
@@ -100,6 +116,7 @@
             inherit cargoArtifacts;
             partitions = 1;
             partitionType = "count";
+            cargoNextestPartitionsExtraArgs = "--no-tests=pass";
           });
 
           # Code coverage with cargo-tarpaulin
@@ -109,11 +126,16 @@
         };
 
         packages = {
-          default = project-euler;
+          inherit project-euler project-euler-macros;
         };
 
-        apps.default = flake-utils.lib.mkApp {
-          drv = project-euler;
+        apps = {
+          project-euler = flake-utils.lib.mkApp {
+            drv = project-euler;
+          };
+          project-euler-macros = flake-utils.lib.mkApp {
+            drv = project-euler-macros;
+          };
         };
 
         devShells.default = craneLib.devShell {
