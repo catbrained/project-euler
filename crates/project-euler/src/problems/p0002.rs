@@ -7,3 +7,5 @@ use crate::util::fibonacci;
 pub fn solve() -> u64 {
     fibonacci(4_000_000).filter(|f| f % 2 == 0).sum()
 }
+
+check_matches!(4613732);

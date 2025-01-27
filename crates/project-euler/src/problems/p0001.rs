@@ -15,3 +15,5 @@ pub fn solve() -> u64 {
 
     sum_a + sum_b - sum_c
 }
+
+check_matches!(233168);
