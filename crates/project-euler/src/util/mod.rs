@@ -30,6 +30,24 @@ mod tests {
     use super::*;
 
     #[test]
+    fn sum_of_natural_numbers_matches_first_54() {
+        // Numbers from https://oeis.org/A000217
+        let first_54 = vec![
+            0, 1, 3, 6, 10, 15, 21, 28, 36, 45, 55, 66, 78, 91, 105, 120, 136, 153, 171, 190, 210,
+            231, 253, 276, 300, 325, 351, 378, 406, 435, 465, 496, 528, 561, 595, 630, 666, 703,
+            741, 780, 820, 861, 903, 946, 990, 1035, 1081, 1128, 1176, 1225, 1275, 1326, 1378,
+            1431,
+        ];
+
+        let mut res = Vec::with_capacity(54);
+        for n in 0..54 {
+            res.push(sum_of_natural_numbers(n));
+        }
+
+        assert_eq!(first_54, res);
+    }
+
+    #[test]
     fn fibonacci_matches_first_40_numbers() {
         // Numbers from https://oeis.org/A000045
         let first_40 = vec![
