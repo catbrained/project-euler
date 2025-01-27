@@ -5,7 +5,15 @@ use crate::util::fibonacci;
 /// By considering the terms in the Fibonacci sequence whose values do not exceed four million,
 /// find the sum of the even-valued terms.
 pub fn solve() -> u64 {
-    fibonacci(4_000_000).filter(|f| f % 2 == 0).sum()
+    // We can avoid testing every element if it is even by observing that every 3rd element is even:
+    //
+    // 1 1 2 3 5 8 13 21 34 55 89 144 ...
+    //     ^     ^        ^         ^
+    //
+    // `step_by` always returns the first element, regardless of step size.
+    // Therefore, we skip the first two elements to start at the first even
+    // element (2).
+    fibonacci(4_000_000).skip(2).step_by(3).sum()
 }
 
 check_matches!(4613732);
