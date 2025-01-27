@@ -9,3 +9,10 @@ authors = ["Linda Siemons <linda@catbrained.dev>"]
 
 [dependencies]
 project-euler-macros = { path = "../project-euler-macros" }
+
+[dev-dependencies]
+criterion = "0.5.1"
+
+[[bench]]
+name = "benchmarks"
+harness = false

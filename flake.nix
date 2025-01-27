@@ -69,6 +69,9 @@
         # Build the individual workspace crates.
         project-euler = craneLib.buildPackage (individualCrateArgs // {
           src = fileSetForCrate ./crates/project-euler;
+          nativeBuildInputs = [
+            pkgs.gnuplot # for Criterion
+          ];
         });
         project-euler-macros = craneLib.buildPackage (individualCrateArgs // {
           src = fileSetForCrate ./crates/project-euler-macros;
