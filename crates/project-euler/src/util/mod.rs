@@ -60,4 +60,15 @@ mod tests {
 
         assert_eq!(first_40, res);
     }
+
+    #[test]
+    fn fibonacci_finishes_within_5s() {
+        let (tx, rx) = std::sync::mpsc::channel();
+        let _ = std::thread::spawn(move || {
+            let _: Vec<_> = fibonacci(4_000_000).collect();
+            let _ = tx.send(());
+        });
+
+        assert!(rx.recv_timeout(std::time::Duration::from_secs(5)).is_ok());
+    }
 }
