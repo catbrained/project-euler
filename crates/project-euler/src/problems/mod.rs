@@ -16,4 +16,4 @@ macro_rules! check_matches {
     };
 }
 
-gen_mods!(4);
+gen_mods!(5);
