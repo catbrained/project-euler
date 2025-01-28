@@ -4,10 +4,15 @@
 pub fn solve() -> u64 {
     let mut largest = 0;
 
-    for a in 100..=999 {
-        for b in a..=999 {
+    for a in (100..=999).rev() {
+        for b in (a..=999).rev() {
             let c = a * b;
-            if c > largest && is_palindrome(c) {
+            if c <= largest {
+                // We're counting downwards, so any further
+                // iterations would be even smaller. Break.
+                break;
+            }
+            if is_palindrome(c) {
                 largest = c;
             }
         }
