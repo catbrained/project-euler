@@ -17,7 +17,17 @@ pub fn solve() -> u64 {
 }
 
 fn is_palindrome(n: u64) -> bool {
-    n.to_string().chars().eq(n.to_string().chars().rev())
+    n == reverse(n)
+}
+
+fn reverse(mut n: u64) -> u64 {
+    let mut rev = 0;
+    while n > 0 {
+        rev = 10 * rev + n % 10;
+        n /= 10;
+    }
+
+    rev
 }
 
 check_matches!(906609);
