@@ -8,20 +8,13 @@ pub fn sum_of_natural_numbers(n: u64) -> u64 {
     (n * (n + 1)) / 2
 }
 
-/// Calculates the Fibonacci sequence up to `limit`.
-///
-/// Note that `limit` denotes the limit for the values in the sequence.
-/// It does _not_ calculate the first `limit` numbers in the sequence.
-pub fn fibonacci(limit: u64) -> impl Iterator<Item = u64> {
+/// Calculates the Fibonacci sequence.
+pub fn fibonacci() -> impl Iterator<Item = u64> {
     (0..).scan((0, 1), move |state, _elem| {
         let next = state.0 + state.1;
         let ret = state.1;
-        if ret <= limit {
-            *state = (state.1, next);
-            Some(ret)
-        } else {
-            None
-        }
+        *state = (state.1, next);
+        Some(ret)
     })
 }
 
@@ -158,20 +151,18 @@ mod tests {
             2178309, 3524578, 5702887, 9227465, 14930352, 24157817, 39088169, 63245986, 102334155,
         ];
 
-        let res: Vec<_> = fibonacci(*first_40.last().unwrap()).collect();
-
-        assert_eq!(first_40, res);
+        assert!(fibonacci().take(40).zip(first_40).all(|(a, b)| a == b));
     }
 
     #[test]
-    fn fibonacci_finishes_within_5s() {
+    fn fibonacci_finishes_within_2s() {
         let (tx, rx) = std::sync::mpsc::channel();
         let _ = std::thread::spawn(move || {
-            let _: Vec<_> = fibonacci(4_000_000).collect();
+            let _: Vec<_> = fibonacci().take(60).collect();
             let _ = tx.send(());
         });
 
-        assert!(rx.recv_timeout(std::time::Duration::from_secs(5)).is_ok());
+        assert!(rx.recv_timeout(std::time::Duration::from_secs(2)).is_ok());
     }
 
     #[test]

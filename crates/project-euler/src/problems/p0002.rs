@@ -13,7 +13,11 @@ pub fn solve() -> u64 {
     // `step_by` always returns the first element, regardless of step size.
     // Therefore, we skip the first two elements to start at the first even
     // element (2).
-    fibonacci(4_000_000).skip(2).step_by(3).sum()
+    fibonacci()
+        .skip(2)
+        .step_by(3)
+        .take_while(|&f| f <= 4_000_000)
+        .sum()
 }
 
 check_matches!(4613732);
