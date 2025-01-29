@@ -1,19 +1,13 @@
-use criterion::{black_box, criterion_group, criterion_main, BenchmarkId, Criterion};
+use criterion::{criterion_group, criterion_main, BenchmarkId, Criterion};
 use project_euler_util::{fibonacci, Primes};
 
 fn bench_fibonacci(c: &mut Criterion) {
-    c.bench_function("fib 10", |b| {
-        b.iter_with_large_drop(|| fibonacci().take(black_box(10)).collect::<Vec<_>>())
-    });
-    c.bench_function("fib 20", |b| {
-        b.iter_with_large_drop(|| fibonacci().take(black_box(20)).collect::<Vec<_>>())
-    });
-    c.bench_function("fib 40", |b| {
-        b.iter_with_large_drop(|| fibonacci().take(black_box(40)).collect::<Vec<_>>())
-    });
-    c.bench_function("fib 60", |b| {
-        b.iter_with_large_drop(|| fibonacci().take(black_box(60)).collect::<Vec<_>>())
-    });
+    let mut group = c.benchmark_group("fibonacci");
+    for n in [10, 20, 40, 60].iter() {
+        group.bench_with_input(BenchmarkId::from_parameter(n), n, |b, &n| {
+            b.iter_with_large_drop(|| fibonacci().take(n).collect::<Vec<_>>())
+        });
+    }
 }
 
 fn bench_primes(c: &mut Criterion) {
