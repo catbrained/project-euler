@@ -37,6 +37,12 @@ pub struct Primes {
     precomputed: usize,
 }
 
+impl Default for Primes {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl Primes {
     pub fn new() -> Self {
         Primes::new_inner(2)
