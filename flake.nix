@@ -69,18 +69,21 @@
         # Build the individual workspace crates.
         project-euler = craneLib.buildPackage (individualCrateArgs // {
           src = fileSetForCrate ./crates/project-euler;
-          nativeBuildInputs = [
-            pkgs.gnuplot # for Criterion
-          ];
         });
         project-euler-macros = craneLib.buildPackage (individualCrateArgs // {
           src = fileSetForCrate ./crates/project-euler-macros;
+        });
+        project-euler-util = craneLib.buildPackage (individualCrateArgs // {
+          src = fileSetForCrate ./crates/project-euler-util;
+          nativeBuildInputs = [
+            pkgs.gnuplot # for Criterion
+          ];
         });
       in
       {
         checks = {
           # Build the crate as part of `nix flake check` for convenience
-          inherit project-euler project-euler-macros;
+          inherit project-euler project-euler-macros project-euler-util;
 
           # Run clippy (and deny all warnings) on the crate source,
           # again, reusing the dependency artifacts from above.
@@ -129,7 +132,7 @@
         };
 
         packages = {
-          inherit project-euler project-euler-macros;
+          inherit project-euler project-euler-macros project-euler-util;
         };
 
         apps = {
@@ -138,6 +141,9 @@
           };
           project-euler-macros = flake-utils.lib.mkApp {
             drv = project-euler-macros;
+          };
+          project-euler-util = flake-utils.lib.mkApp {
+            drv = project-euler-util;
           };
         };
 

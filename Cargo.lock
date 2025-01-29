@@ -304,8 +304,8 @@ dependencies = [
 name = "project-euler"
 version = "0.1.0"
 dependencies = [
- "criterion",
  "project-euler-macros",
+ "project-euler-util",
 ]
 
 [[package]]
@@ -314,6 +314,13 @@ version = "0.1.0"
 dependencies = [
  "quote",
  "syn",
+]
+
+[[package]]
+name = "project-euler-util"
+version = "0.1.0"
+dependencies = [
+ "criterion",
 ]
 
 [[package]]

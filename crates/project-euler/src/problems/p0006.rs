@@ -1,4 +1,4 @@
-use crate::util::sum_of_natural_numbers;
+use project_euler_util::sum_of_natural_numbers;
 
 /// The sum of the squares of the first ten natural numbers is,
 /// 1^2 + 2^2 + ... + 10^2 = 385.
