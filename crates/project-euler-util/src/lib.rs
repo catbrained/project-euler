@@ -79,6 +79,7 @@ impl Iterator for Primes {
         let mut n = self.next_num;
 
         loop {
+            debug_assert!(n % 2 != 0);
             let mut is_prime = true;
             // We only need to test the primes up to sqrt(n).
             // We also skip the first prime (2), because we're only checking odd numbers anyway.
@@ -150,8 +151,9 @@ mod tests {
             10946, 17711, 28657, 46368, 75025, 121393, 196418, 317811, 514229, 832040, 1346269,
             2178309, 3524578, 5702887, 9227465, 14930352, 24157817, 39088169, 63245986, 102334155,
         ];
+        let res: Vec<_> = fibonacci().take(40).collect();
 
-        assert!(fibonacci().take(40).zip(first_40).all(|(a, b)| a == b));
+        assert_eq!(first_40, res);
     }
 
     #[test]
@@ -167,7 +169,7 @@ mod tests {
 
     #[test]
     fn primes_matches_first_1000() {
-        let primes = Primes::with_capacity(100);
+        let primes = Primes::with_capacity(1000);
         // Numbers from https://t5k.org/lists/small/1000.txt
         let first_1000 = vec![
             2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83,
@@ -240,8 +242,9 @@ mod tests {
             7687, 7691, 7699, 7703, 7717, 7723, 7727, 7741, 7753, 7757, 7759, 7789, 7793, 7817,
             7823, 7829, 7841, 7853, 7867, 7873, 7877, 7879, 7883, 7901, 7907, 7919,
         ];
+        let res: Vec<_> = primes.take(1000).collect();
 
-        assert!(primes.take(1000).zip(first_1000).all(|(a, b)| a == b));
+        assert_eq!(first_1000, res);
     }
 
     #[test]
